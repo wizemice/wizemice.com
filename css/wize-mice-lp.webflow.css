@@ -1571,11 +1571,10 @@
   justify-content: center;
   align-items: center;
   min-height: 0;
-  max-height: 60vh;
   margin-left: auto;
   margin-right: auto;
-  padding-top: 6rem;
-  padding-bottom: 3rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
   display: flex;
   position: relative;
   top: 0;
