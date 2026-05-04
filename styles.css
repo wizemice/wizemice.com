@@ -28,8 +28,8 @@
   /** Major vertical padding on bands — Figma `py-[100px]` on features, tone, team, specs */
   --section-pad-y: 100px;
   --radii-btn: 10px;
-  /* Seamless tiling width for animated CTA (start/end coral match). Anim moves one tile per `--btn-waitlist-flow-duration`. */
-  --btn-waitlist-flow-period: 200px;
+  /* Wide seamless tile — fewer repeats on wide CTAs (was 200px). Anim shifts one tile per `--btn-waitlist-flow-duration`. */
+  --btn-waitlist-flow-period: 720px;
   --btn-waitlist-flow-duration: 8s;
   /** Team wordmark: wider seamless tile than CTA so hues don’t repeat across the wordmark */
   --team-brand-mark-flow-period: 640px;
@@ -426,13 +426,13 @@ main {
   background-color: transparent;
   background-image: linear-gradient(
     90deg,
-    #fa494c 0px,
-    #ffe38e 40px,
-    #5ed5ef 78px,
-    #7ee8cc 100px,
-    #5ed5ef 122px,
-    #ffe38e 162px,
-    #fa494c var(--btn-waitlist-flow-period)
+    #fa494c 0%,
+    #ffe38e 20%,
+    #5ed5ef 39%,
+    #7ee8cc 50%,
+    #5ed5ef 61%,
+    #ffe38e 81%,
+    #fa494c 100%
   );
   background-size: var(--btn-waitlist-flow-period) 100%;
   background-repeat: repeat-x;
@@ -475,13 +475,13 @@ main {
   line-height: 1;
   background-image: linear-gradient(
     90deg,
-    #fa494c 0px,
-    #ffe38e 40px,
-    #5ed5ef 78px,
-    #7ee8cc 100px,
-    #5ed5ef 122px,
-    #ffe38e 162px,
-    #fa494c var(--btn-waitlist-flow-period)
+    #fa494c 0%,
+    #ffe38e 20%,
+    #5ed5ef 39%,
+    #7ee8cc 50%,
+    #5ed5ef 61%,
+    #ffe38e 81%,
+    #fa494c 100%
   );
   background-size: var(--btn-waitlist-flow-period) 100%;
   background-repeat: repeat-x;
@@ -542,10 +542,9 @@ button.btn-waitlist {
 
   /*
    * Seamless tile: gradient starts/ends coral; repeat-x shifts one full `--btn-waitlist-flow-period`.
-   * Magnitude stays in sync with `:root --btn-waitlist-flow-period` (currently 200px).
    */
   100% {
-    background-position: 200px center;
+    background-position: var(--btn-waitlist-flow-period) center;
   }
 }
 
