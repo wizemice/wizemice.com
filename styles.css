@@ -143,12 +143,22 @@ main {
   padding: 0 0 0;
   text-align: center;
   background: var(--bg);
+  box-sizing: border-box;
+  /** Never taller than the viewport; padding counts inside max (see desktop `padding-bottom`) */
+  max-height: 100vh;
+  max-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
 }
 
 .hero__layout {
   display: flex;
   flex-direction: column;
   align-items: center;
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
 }
 
 .hero__copy-block {
@@ -156,6 +166,8 @@ main {
   flex-direction: column;
   align-items: center;
   width: 100%;
+  flex: 0 0 auto;
+  min-height: 0;
 }
 
 .hero__cta-inline {
@@ -176,8 +188,11 @@ main {
   overflow-x: clip;
   padding-top: 4px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: stretch;
+  flex: 1 1 auto;
+  min-height: 0;
   /** Figma `768:100`: 60px between device frame and headline stack */
   margin-bottom: 60px;
 }
@@ -186,8 +201,11 @@ main {
   margin: 0 auto;
   width: 100%;
   max-width: min(560px, calc(100vw - 24px));
-  display: flex;
-  justify-content: center;
+  flex: 1 1 auto;
+  min-height: 0;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr);
+  justify-items: center;
   align-items: center;
 }
 
@@ -196,12 +214,18 @@ main {
   transform: rotate(6deg);
   transform-origin: center center;
   width: 100%;
+  max-height: 100%;
+  min-height: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .hero__device img {
-  width: 100%;
+  width: auto;
+  max-width: 100%;
   height: auto;
-  max-width: none;
+  max-height: 100%;
   object-fit: contain;
 }
 
@@ -226,7 +250,8 @@ main {
 
 .hero__headline {
   margin: 0;
-  font-size: clamp(28px, 8vw, 48px);
+  /** Fixed below desktop; `@media (min-width: 960px)` sets 48px */
+  font-size: 28px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.01em;
@@ -235,6 +260,11 @@ main {
 
 .hero__headline-light {
   font-weight: 400;
+}
+
+/** Hero “open platform”: team wordmark shimmer stack; matte matches hero `--bg` (not `--bg-elevated`) */
+.hero .team__brand-mark-matte {
+  color: var(--bg);
 }
 
 /* Direct child of `.sticky-cta-scope` so sticky is bounded by whole pre-waitlist column, not short `.hero__copy`. */
@@ -253,7 +283,12 @@ main {
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
   padding: 14px 24px 16px;
-  background: var(--bg);
+  /** `#121212` at 50% opacity top → transparent bottom (`--bg`) */
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--bg) 50%, transparent) 0%,
+    color-mix(in srgb, var(--bg) 0%, transparent) 100%
+  );
   box-sizing: border-box;
 }
 
@@ -327,7 +362,6 @@ main {
   font-size: 16px;
   font-weight: 400;
   line-height: 1;
-  text-transform: uppercase;
   background-image: linear-gradient(
     90deg,
     #fa494c 0px,
@@ -355,26 +389,26 @@ button.btn-waitlist {
   font-family: inherit;
 }
 
-/** Team wordmark: 3s idle, fade in, full-gradient loop (L→R), fade out while scroll continues, 3s idle */
+/** Team + hero wordmarks: brief lead-in (was ~3s idle), same fade/hold/out proportions as original, then tail idle */
 @keyframes team-brand-mark-shimmer-opacity {
   0%,
-  31.58% {
+  3% {
     opacity: 0;
   }
 
-  42.11% {
+  13.5% {
     opacity: 1;
   }
 
-  55% {
+  26.5% {
     opacity: 1;
   }
 
-  68.42% {
+  40% {
     opacity: 0;
   }
 
-  68.43%,
+  40.01%,
   100% {
     opacity: 0;
   }
@@ -781,6 +815,8 @@ button.btn-waitlist {
 
 .team {
   /** Figma `756:148`: `#1b1b1b`, py 100px, px 56px */
+  /** Prev/next + gaps + avatar — bio copy rail matches carousel row width */
+  --team-carousel-track: calc(32px + 26px + 130px + 26px + 32px);
   padding: var(--section-pad-y) 56px;
   display: flex;
   flex-direction: column;
@@ -793,7 +829,7 @@ button.btn-waitlist {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 38px;
+  gap: 34px;
   width: 100%;
 }
 
@@ -840,11 +876,19 @@ button.btn-waitlist {
 
 .team__brand-mark-stack {
   position: relative;
-  display: inline-block;
+  display: inline-flex;
+  align-items: baseline;
+  flex-wrap: nowrap;
   /** Grayscale AA + own layer: cuts subpixel fringes where gradient clips to glyphs */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   isolation: isolate;
+}
+
+/** Gradient + matte apply only here — “?” stays solid `.team__brand-mark-q` */
+.team__brand-mark-word-slot {
+  position: relative;
+  display: inline-block;
 }
 
 .team__brand-mark-base {
@@ -926,7 +970,7 @@ button.btn-waitlist {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 26px;
+  gap: 20px;
 }
 
 .team__slides {
@@ -981,23 +1025,32 @@ button.btn-waitlist {
 .team__bio {
   text-align: center;
   width: 100%;
+  max-width: var(--team-carousel-track);
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* Fixed vertical envelope: avoids pager / footer jumping when slide text differs */
-  min-height: calc(2 * 1.28em + 8px + 3 * 1.4em);
+  justify-content: flex-start;
+  gap: 0;
+  /** Reserve envelope for role + tagline; name uses natural height (1–2 lines when wrapping) */
+  min-height: calc(1.18em + 1px + 2 * 1.35em + 8px + 4.25rem);
   contain: layout;
 }
 
+.team__identity {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  width: 100%;
+}
+
 .team__name {
-  margin: 0 0 8px;
+  margin: 0;
   padding: 0;
   font-size: 16px;
   font-weight: 700;
-  line-height: 1.28;
+  line-height: 1.18;
   max-width: 100%;
-  /* Long names wrap on narrow widths without shrinking the carousel block */
-  min-height: calc(2 * 1.28em);
 }
 
 .team__role {
@@ -1005,10 +1058,21 @@ button.btn-waitlist {
   padding: 0;
   font-size: 16px;
   font-weight: 400;
-  line-height: 1.4;
+  line-height: 1.35;
   max-width: 100%;
-  /* Fits a broken title + subtitle, or wraps on small screens (~3 visual lines) */
-  min-height: calc(3 * 1.4em);
+  /** ~2 lines (CTO wrap); avoids a tall empty band under single-line titles */
+  min-height: calc(2 * 1.35em);
+}
+
+.team__tagline {
+  margin: 8px 0 0;
+  padding: 0;
+  width: 100%;
+  max-width: 100%;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: rgba(223, 223, 223, 0.72);
 }
 
 .team__nav {
@@ -1057,7 +1121,6 @@ button.btn-waitlist {
 
 .team__dot--active {
   background: #1ecea1;
-  box-shadow: 0 0 0 2px rgba(223, 223, 223, 0.22);
 }
 
 .team__dot:focus-visible {
@@ -1359,8 +1422,7 @@ button.btn-waitlist {
   margin: 0 0 14px;
   font-size: clamp(26px, 6vw, 32px);
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.02em;
   line-height: 1.25;
   color: var(--text);
 }
@@ -1777,7 +1839,7 @@ button.btn-waitlist {
 
   .hero__layout {
     flex-direction: row;
-    align-items: center;
+    align-items: stretch;
     justify-content: center;
     /** Same inter-column rhythm as Tone3000 + specifications desktop */
     gap: var(--desktop-split-column-gap);
@@ -1796,14 +1858,20 @@ button.btn-waitlist {
 
   .hero__visual {
     width: auto;
-    flex: 0 1 min(498px, 46vw);
+    flex: 1 1 min(498px, 46vw);
+    min-width: 0;
     margin-left: 0;
     margin-bottom: 0;
     padding-top: 0;
+    max-height: 100%;
+    justify-content: center;
+    align-items: stretch;
   }
 
   .hero__visual-inner {
     max-width: none;
+    width: 100%;
+    height: 100%;
   }
 
   .hero__device {
@@ -1814,6 +1882,9 @@ button.btn-waitlist {
     flex: 0 1 454px;
     align-items: flex-start;
     gap: 44px;
+    justify-content: center;
+    min-width: 0;
+    min-height: 0;
   }
 
   .hero__copy {
@@ -2079,7 +2150,7 @@ button.btn-waitlist {
     grid-template-columns: auto auto;
     grid-template-rows: auto auto;
     column-gap: clamp(48px, 8vw, 125px);
-    row-gap: 45px;
+    row-gap: 34px;
     align-items: center;
     justify-content: center;
     width: 100%;
@@ -2164,6 +2235,24 @@ button.btn-waitlist {
     flex: 0 1 min(468px, 42vw);
     max-width: none;
     align-self: flex-start;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /** Explicit height so `%`/contain sizing resolves; matches `.specs__aside` via `--specs-aside-height` */
+    height: var(--specs-aside-height);
+    min-height: 0;
+    overflow: visible;
+  }
+
+  .specs__art img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    min-height: 0;
+    object-fit: contain;
+    object-position: center;
+    border-radius: 4px;
   }
 
   .faq {
