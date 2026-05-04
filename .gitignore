@@ -1,0 +1,13 @@
+# OS noise
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor / IDE (optional — remove lines if you want these in the repo)
+.vscode/
+.idea/
+
+# Logs & env (if you add tooling later)
+*.log
+.env
+.env.*
