@@ -7,7 +7,7 @@
   --bg-elevated: #1b1b1b;
   /** Waitlist strip — unchanged */
   --tone-strip: #1b1b1b;
-  /* Matches `.site-header` paint height once sync script runs */
+  /* Matches `.site-header--scroll` paint height once sync script runs */
   --hero-cta-sticky-top: 92px;
   --text: #dfdfdf;
   --border: #282828;
@@ -101,9 +101,19 @@ img {
   align-items: stretch;
   padding: 32px 0;
   background: var(--bg);
+  box-sizing: border-box;
+}
+
+/** Mobile / hero band — sticks until scrolled; desktop becomes normal flow (see `@media (min-width: 960px)`). */
+.site-header--scroll {
   position: sticky;
   top: 0;
   z-index: 50;
+}
+
+/** Desktop-only fixed bar — slides in after `#free-the-sound` scrolls away (script toggles `--dock-visible`). */
+.site-header--dock {
+  display: none;
 }
 
 /** Same horizontal rail as `main` / `.features`: `--content-max` + section padding `39px`. */
@@ -119,7 +129,7 @@ img {
 }
 
 .site-header__cta {
-  display: none;
+  display: inline-flex;
 }
 
 .site-header__logo {
@@ -221,12 +231,33 @@ main {
   align-items: center;
 }
 
-.hero__device img {
+.hero__device img,
+.hero__device video {
   width: auto;
   max-width: 100%;
   height: auto;
   max-height: 100%;
   object-fit: contain;
+  vertical-align: middle;
+}
+
+.hero__device-video {
+  display: block;
+  background: transparent;
+}
+
+.hero__device-fallback {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__device-video {
+    display: none !important;
+  }
+
+  .hero__device-fallback {
+    display: block;
+  }
 }
 
 .hero__copy {
@@ -278,8 +309,8 @@ main {
   width: 100vw;
   max-width: 100vw;
   margin-top: 29px;
-  /** Space before features band — matches `--section-pad-y` rhythm */
-  margin-bottom: var(--section-pad-y);
+  /** Tighter bridge into `.free-sound`; features band keeps `--section-pad-y` */
+  margin-bottom: clamp(12px, 3vw, 24px);
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
   padding: 14px 24px 16px;
@@ -305,6 +336,86 @@ main {
   padding-bottom: 0;
   overflow: hidden;
   background: transparent;
+}
+
+/* ---------- Free the sound (scroll-scrubbed headline cross) ---------- */
+
+.free-sound {
+  position: relative;
+  z-index: 0;
+  /** No fill height — a tall min-height showed `#121212` under centered type (“grey bar”). */
+  /** Mobile: space below sticky hero CTA rail; desktop overrides in `@media (min-width: 960px)` */
+  padding-top: 100px;
+  padding-bottom: 0;
+  padding-left: 0;
+  padding-right: 0;
+  margin: 0;
+  background: transparent;
+  box-sizing: border-box;
+  /** Full-bleed within constrained main rail */
+  width: 100vw;
+  max-width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+}
+
+.free-sound__sticky {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.free-sound__stage {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  overflow: visible;
+  /** Full viewport width rail — both lines match */
+  width: 100%;
+  max-width: none;
+  box-sizing: border-box;
+}
+
+.free-sound__line {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: var(--font);
+  color: #1b1b1b;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+  text-transform: uppercase;
+  text-align: center;
+  will-change: transform;
+  /** Caps-only stack — strip half-leading; `< 1` clips rare descenders on Barlow/T */
+  line-height: 0.92;
+}
+
+.free-sound__line--top {
+  font-weight: 400;
+  font-style: italic;
+  font-size: clamp(2.75rem, 14vw, 9rem);
+}
+
+.free-sound__line--bottom {
+  font-weight: 700;
+  font-style: normal;
+  font-size: clamp(4.25rem, 22vw, 15rem);
+  /** Kern second line toward first — em tracks responsive bottom size */
+  margin-top: -0.14em;
 }
 
 .btn-waitlist {
@@ -523,12 +634,14 @@ button.btn-waitlist {
 .features {
   /** Figma `756:227`: py 100px, px 39px, `#1b1b1b`, column gap 60px */
   --feature-media-max: 324px;
+  position: relative;
+  z-index: 2;
   padding: var(--section-pad-y) 39px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 60px;
-  background: var(--bg-elevated);
+  background: transparent;
 }
 
 .feature-card {
@@ -592,14 +705,7 @@ button.btn-waitlist {
 
 .tone {
   /** Logo rail / desktop copy rail — `--tone-brand-width` */
-  background-color: #121212;
-  /** Full-bleed photo — `cover` crops; veil keeps text/link contrast */
-  background-image:
-    linear-gradient(rgba(18, 18, 18, 0.62), rgba(18, 18, 18, 0.62)),
-    url('assets/tone-section-bg.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  background-color: #1b1b1b;
   /** Same horizontal inset as `.features` — sits in `.sticky-cta-scope` like other bands */
   padding: var(--section-pad-y) 39px;
   display: flex;
@@ -1754,21 +1860,21 @@ button.btn-waitlist {
   display: block;
 }
 
-/** Mobile-only: header CTA hidden; hero bands centered in column; accelerators rhythm */
+/** Mobile-only: dock hidden; hero bands centered in column; accelerators rhythm */
 @media (max-width: 959px) {
   .accelerators {
     margin-top: 29px;
   }
 
-  .site-header {
+  .site-header--dock {
+    display: none !important;
+  }
+
+  .site-header--scroll {
     justify-content: center;
     align-items: stretch;
     min-height: 0;
     padding: 32px 0;
-  }
-
-  .site-header__cta {
-    display: none !important;
   }
 
   .site-header__logo {
@@ -1779,12 +1885,6 @@ button.btn-waitlist {
     transition: none !important;
     width: 178.85px !important;
     margin: 0;
-  }
-
-  .site-header.site-header--handoff .site-header__logo {
-    position: static !important;
-    left: auto !important;
-    transform: none !important;
   }
 
   /** Hero image: stay in column + remove tilt so layout centers reliably */
@@ -1809,7 +1909,8 @@ button.btn-waitlist {
     margin-inline: auto;
   }
 
-  .hero__device img {
+  .hero__device img,
+  .hero__device video {
     width: 100%;
     height: auto;
     margin-inline: auto;
@@ -1826,6 +1927,12 @@ button.btn-waitlist {
   .sticky-cta-scope {
     max-width: min(1221px, calc(100vw - 48px));
     margin-inline: auto;
+  }
+
+  /** Sticky hero CTA hidden — rhythm sits below headline instead */
+  .free-sound {
+    padding-top: 0;
+    padding-bottom: 100px;
   }
 
   /** Inline hero CTA replaces sticky rail */
@@ -1916,9 +2023,10 @@ button.btn-waitlist {
     margin-top: 0.06em;
   }
 
-  /* Header: centered logo → left + header CTA after hero CTA leaves view — rail matches `.sticky-cta-scope` / `.features`. */
-  .site-header {
-    position: sticky;
+  /* Desktop headers: scroll-away centered banner + fixed dock after Free the sound exits upward */
+  .site-header--scroll {
+    position: static;
+    z-index: 0;
     justify-content: center;
     align-items: stretch;
     min-height: 131px;
@@ -1926,55 +2034,84 @@ button.btn-waitlist {
     box-sizing: border-box;
   }
 
-  .site-header__rail {
+  .site-header--scroll .site-header__rail {
+    position: relative;
+    width: 100%;
+    max-width: min(1221px, calc(100vw - 48px));
+    margin-inline: auto;
+    padding-inline: 39px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 0;
+  }
+
+  .site-header--scroll .site-header__logo {
+    position: static;
+    left: auto;
+    top: auto;
+    transform: none;
+    width: 178.85px;
+    transition: none;
+  }
+
+  .site-header--dock {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    min-height: 131px;
+    padding: 33px 0;
+    box-sizing: border-box;
+    z-index: 60;
+    background: var(--bg);
+    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none;
+    transition:
+      transform 0.42s cubic-bezier(0.33, 1, 0.68, 1),
+      opacity 0.35s ease;
+  }
+
+  .site-header--dock.site-header--dock-visible {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .site-header--dock .site-header__rail {
     position: relative;
     flex: 0 1 auto;
     align-self: stretch;
     width: 100%;
     max-width: min(1221px, calc(100vw - 48px));
     margin-inline: auto;
-    /** Insets via logo / CTA `left`/`right`; matches `.features` horizontal padding */
     padding-inline: 0;
     display: block;
     min-height: 0;
   }
 
-  .site-header__cta {
+  .site-header--dock .site-header__cta {
     display: inline-flex;
     position: absolute;
     top: 50%;
     right: 39px;
     transform: translateY(-50%);
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    transition:
-      opacity 0.38s ease,
-      visibility 0.38s ease;
-  }
-
-  .site-header.site-header--handoff .site-header__cta {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
   }
 
-  .site-header__logo {
+  .site-header--dock .site-header__logo {
     position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    /** Same rendered width as mobile */
-    width: 178.85px;
-    transition:
-      left 1.1s cubic-bezier(0.33, 1, 0.68, 1),
-      transform 1.1s cubic-bezier(0.33, 1, 0.68, 1);
-  }
-
-  .site-header.site-header--handoff .site-header__logo {
     left: 39px;
-    transform: translate(0, -50%);
+    top: 50%;
+    transform: translateY(-50%);
     width: 178.85px;
+    transition: none;
   }
 
   /* Desktop CTAs use default `.btn-waitlist__inner` / `__label` sizing (same as mobile). */
@@ -1996,7 +2133,7 @@ button.btn-waitlist {
     min-width: 0;
   }
 
-  /* Tone3000 — full-bleed background on `.tone`; inner rail matches `.features` */
+  /* Tone3000 — inner rail matches `.features` */
   .tone {
     text-align: center;
     padding-block: clamp(48px, 6vw, 80px);
@@ -2281,6 +2418,10 @@ button.btn-waitlist {
 @media (min-width: 960px) and (prefers-reduced-motion: reduce) {
   .site-header__logo,
   .site-header__cta {
+    transition: none !important;
+  }
+
+  .site-header--dock {
     transition: none !important;
   }
 }

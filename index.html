@@ -6,15 +6,24 @@
     <title>WizeCore — WizeMice</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;700&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
     <div class="frame">
-      <header class="site-header">
+      <header class="site-header site-header--scroll" role="banner">
         <div class="site-header__rail">
           <img src="assets/wm-logo.svg" alt="WizeMice" width="179" height="28" class="site-header__logo" />
+        </div>
+      </header>
+
+      <header class="site-header site-header--dock" aria-hidden="true">
+        <div class="site-header__rail">
+          <img src="assets/wm-logo.svg" alt="" width="179" height="28" class="site-header__logo" decoding="async" />
           <a
             class="site-header__cta btn-waitlist btn-waitlist--header-desktop"
             href="#waitlist"
@@ -32,7 +41,23 @@
             <div class="hero__visual">
               <div class="hero__visual-inner">
                 <div class="hero__device">
+                  <video
+                    class="hero__device-video"
+                    autoplay
+                    muted
+                    loop
+                    playsinline
+                    preload="metadata"
+                    poster="assets/wizecore-hero.png"
+                    width="570"
+                    height="554"
+                    aria-hidden="true"
+                  >
+                    <source src="assets/video/spedwize_alpha.webm" type="video/webm" />
+                    <source src="assets/video/wizecore-hero.mp4" type="video/mp4" />
+                  </video>
                   <img
+                    class="hero__device-fallback"
                     src="assets/wizecore-hero.png"
                     alt=""
                     width="570"
@@ -73,6 +98,16 @@
           <div class="hero__cta-track">
             <a class="btn-waitlist" href="#waitlist"><span class="btn-waitlist__inner"><span class="btn-waitlist__label">Join the Waitlist</span></span></a>
           </div>
+
+          <section class="free-sound" id="free-the-sound" aria-labelledby="free-sound-heading">
+            <h2 id="free-sound-heading" class="visually-hidden">Free the sound</h2>
+            <div class="free-sound__sticky">
+              <div class="free-sound__stage">
+                <p class="free-sound__line free-sound__line--top">FREE THE</p>
+                <p class="free-sound__line free-sound__line--bottom">SOUND</p>
+              </div>
+            </div>
+          </section>
 
           <section class="features" aria-label="Product features">
           <article class="feature-card">
@@ -629,7 +664,7 @@
     </div>
     <script>
       (function () {
-        var header = document.querySelector('.site-header');
+        var header = document.querySelector('.site-header--scroll');
         if (!header) return;
 
         function sync() {
@@ -668,6 +703,98 @@
     </script>
     <script>
       (function () {
+        var section = document.querySelector('.free-sound');
+        var topLine = section && section.querySelector('.free-sound__line--top');
+        var bottomLine = section && section.querySelector('.free-sound__line--bottom');
+        if (!section || !topLine || !bottomLine) return;
+
+        var mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+        var rafId = null;
+        var smoothP = 0;
+        /** Limits jerk between frames — slow ramp-up / ramp-down */
+        var prevStep = 0;
+
+        function clamp01(x) {
+          return x <= 0 ? 0 : x >= 1 ? 1 : x;
+        }
+
+        /** Peak opacity at p = 0.5 (mid scrub); fades in/out toward ends */
+        function opacityFromProgress(p) {
+          var x = clamp01(p);
+          if (x <= 0.5) return x / 0.5;
+          return (1 - x) / 0.5;
+        }
+
+        function targetPFromScroll() {
+          var rect = section.getBoundingClientRect();
+          var vh = window.innerHeight;
+          var h = section.offsetHeight || 1;
+          var denom = vh + h;
+          return clamp01((vh - rect.top) / denom);
+        }
+
+        function applyTransforms(p) {
+          /** Endpoints ±50vw — lines start/end halfway across viewport vs ±100vw */
+          var txTop = -50 + p * 100;
+          var txBot = 50 - p * 100;
+          var o = opacityFromProgress(p);
+          topLine.style.transform = 'translate3d(' + txTop + 'vw, 0, 0)';
+          bottomLine.style.transform = 'translate3d(' + txBot + 'vw, 0, 0)';
+          topLine.style.opacity = String(o);
+          bottomLine.style.opacity = String(o);
+        }
+
+        function tick() {
+          if (mq.matches) {
+            topLine.style.transform = 'translate3d(0, 0, 0)';
+            bottomLine.style.transform = 'translate3d(0, 0, 0)';
+            topLine.style.opacity = '1';
+            bottomLine.style.opacity = '1';
+            prevStep = 0;
+            rafId = null;
+            return;
+          }
+
+          var target = targetPFromScroll();
+          /** Slow follow: low gain + hard speed cap + capped acceleration between frames */
+          var delta = target - smoothP;
+          var gain = 0.018;
+          var maxSpeed = 0.00585;
+          var maxAccel = 0.00052;
+          var desiredStep = delta * gain;
+          if (Math.abs(desiredStep) > maxSpeed) desiredStep = Math.sign(desiredStep) * maxSpeed;
+          var stepJump = desiredStep - prevStep;
+          if (Math.abs(stepJump) > maxAccel) desiredStep = prevStep + Math.sign(stepJump) * maxAccel;
+          prevStep = desiredStep;
+          smoothP += desiredStep;
+
+          applyTransforms(smoothP);
+
+          if (Math.abs(target - smoothP) > 0.000488) {
+            rafId = requestAnimationFrame(tick);
+          } else {
+            smoothP = target;
+            prevStep = 0;
+            applyTransforms(smoothP);
+            rafId = null;
+          }
+        }
+
+        function schedule() {
+          if (!rafId) rafId = requestAnimationFrame(tick);
+        }
+
+        smoothP = targetPFromScroll();
+        applyTransforms(smoothP);
+
+        if (mq.addEventListener) mq.addEventListener('change', tick);
+        else if (mq.addListener) mq.addListener(tick);
+        window.addEventListener('scroll', schedule, { passive: true });
+        window.addEventListener('resize', schedule);
+      })();
+    </script>
+    <script>
+      (function () {
         var specs = document.querySelector('.specs');
         var aside = specs && specs.querySelector('.specs__aside');
         if (!specs || !aside) return;
@@ -700,14 +827,13 @@
     <script>
       (function () {
         var mq = window.matchMedia('(min-width: 960px)');
-        var header = document.querySelector('.site-header');
-        var sentinel = document.querySelector('[data-desktop-hero-cta]');
-        if (!header || !sentinel) return;
+        var dock = document.querySelector('.site-header--dock');
+        var freeSound = document.getElementById('free-the-sound');
+        if (!dock || !freeSound) return;
 
-        var headerCta = header.querySelector('.site-header__cta');
-        var io = null;
+        var headerCta = dock.querySelector('.site-header__cta');
 
-        function setHeaderCtaInteractive(active) {
+        function setDockInteractive(active) {
           if (!headerCta) return;
           if (active) {
             headerCta.removeAttribute('aria-hidden');
@@ -718,35 +844,25 @@
           }
         }
 
-        function teardown() {
-          if (io) {
-            io.disconnect();
-            io = null;
+        function syncDockHeader() {
+          if (!mq.matches) {
+            dock.classList.remove('site-header--dock-visible');
+            dock.setAttribute('aria-hidden', 'true');
+            setDockInteractive(false);
+            return;
           }
-          header.classList.remove('site-header--handoff');
-          setHeaderCtaInteractive(false);
+          /** Dock slides in once “Free the sound” has scrolled up past the viewport top */
+          var show = freeSound.getBoundingClientRect().top < 0;
+          dock.classList.toggle('site-header--dock-visible', show);
+          dock.setAttribute('aria-hidden', show ? 'false' : 'true');
+          setDockInteractive(show);
         }
 
-        function arm() {
-          teardown();
-          if (!mq.matches) return;
-          setHeaderCtaInteractive(false);
-          io = new IntersectionObserver(
-            function (entries) {
-              entries.forEach(function (e) {
-                var away = !e.isIntersecting;
-                header.classList.toggle('site-header--handoff', away);
-                setHeaderCtaInteractive(away);
-              });
-            },
-            { threshold: 0, rootMargin: '0px' }
-          );
-          io.observe(sentinel);
-        }
-
-        arm();
-        if (mq.addEventListener) mq.addEventListener('change', arm);
-        else if (mq.addListener) mq.addListener(arm);
+        syncDockHeader();
+        window.addEventListener('scroll', syncDockHeader, { passive: true });
+        window.addEventListener('resize', syncDockHeader);
+        if (mq.addEventListener) mq.addEventListener('change', syncDockHeader);
+        else if (mq.addListener) mq.addListener(syncDockHeader);
       })();
     </script>
     <script>
@@ -931,24 +1047,25 @@
             src: 'assets/team-karan.png'
           },
           {
-            name: 'Lucas Klepa',
-            roleHtml: 'Creative Director<br />& UX Designer',
-            tagline:
-              'Plays the bass like a demon. Sings like an angel.',
-            src: 'assets/team-lucas.png'
-          },
-          {
             name: 'Pedro Nonino',
             roleHtml: 'Software Engineer',
-            tagline: 'For him, anything is an instrument and every sound can be music.',
+            tagline:
+              'Makes an instrument out of anything. If it makes sound, it makes music.',
             src: 'assets/team-pedro.png'
           },
           {
             name: 'Arthur Hiroyuki',
             roleHtml: 'Electronic Engineer',
             tagline:
-              'Know-it-all on circuits and effects. Plays guitar with pedals he builds himself.',
+              'Master of circuits and effects. Plays guitar with pedals he builds himself.',
             src: 'assets/team-arthur.png'
+          },
+          {
+            name: 'Lucas Klepa',
+            roleHtml: 'Creative Director<br />& UX Designer',
+            tagline:
+              'Plays the bass like a demon. Sings like an angel.',
+            src: 'assets/team-lucas.png'
           }
         ];
 
