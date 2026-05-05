@@ -139,13 +139,16 @@
           <div class="tone__inner">
             <div class="tone__visual">
               <div class="tone__grid">
-                <img
-                  src="assets/tone-amps-wall.png"
-                  alt=""
-                  width="1024"
-                  height="1024"
-                  decoding="async"
-                />
+                <div class="tone__pan">
+                  <img
+                    class="tone__pan-img"
+                    src="assets/tone-amps-wall.png"
+                    alt=""
+                    width="1024"
+                    height="576"
+                    decoding="async"
+                  />
+                </div>
               </div>
             </div>
             <div class="tone__text-column">
@@ -481,7 +484,22 @@
             </h2>
             <p class="waitlist-section__lead">Get early access and updates as we get closer to release.</p>
           </header>
-          <form class="waitlist-form" id="waitlist-form-el" action="#" method="post" novalidate>
+          <!--
+            Mailchimp: Audience → Signup forms → Embedded forms → Unstyled (or your layout).
+            Paste the form action URL → data-mc-base is origin only (e.g. https://xxxx.us21.list-manage.com).
+            Copy hidden fields "u" and "id" → data-mc-u / data-mc-id.
+            Add Audience → Settings → Audience fields: Text field “Roles” → use its merge tag (often MERGE5) in data-mc-merge-roles.
+          -->
+          <form
+            class="waitlist-form"
+            id="waitlist-form-el"
+            action="#"
+            method="post"
+            data-mc-base=""
+            data-mc-u=""
+            data-mc-id=""
+            data-mc-merge-roles="MERGE5"
+          >
             <div class="waitlist-form__fields">
               <label class="waitlist-form__label">
                 <span class="waitlist-form__label-text">Email <span class="waitlist-form__required">(required)</span></span>
@@ -569,7 +587,8 @@
                   />
                 </label>
               </div>
-              <button type="submit" class="btn-waitlist">
+              <p class="waitlist-form__error" id="waitlist-form-error" hidden role="alert"></p>
+              <button type="submit" class="btn-waitlist" id="waitlist-submit">
                 <span class="btn-waitlist__inner"><span class="btn-waitlist__label">Subscribe</span></span>
               </button>
             </div>
@@ -826,6 +845,128 @@
     </script>
     <script>
       (function () {
+        var section = document.querySelector('.tone');
+        var grid = section && section.querySelector('.tone__grid');
+        var img = section && section.querySelector('.tone__pan-img');
+        if (!section || !grid || !img) return;
+
+        var mqReduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+        var rafId = null;
+        /** Smoothed scroll progress (0–1), eased toward live target */
+        var smoothP = 0;
+        /** Limits jerk between frames — ramp-up / ramp-down like `.free-sound` lines */
+        var prevToneStep = 0;
+        var gain = 0.034;
+        var maxSpeed = 0.00125;
+        var maxAccel = 0.0002;
+
+        function clamp01(x) {
+          return x <= 0 ? 0 : x >= 1 ? 1 : x;
+        }
+
+        function tonePanProgress() {
+          var rect = section.getBoundingClientRect();
+          var vh = window.innerHeight;
+          var h = section.offsetHeight || 1;
+          var denom = vh + h;
+          return clamp01((vh - rect.top) / denom);
+        }
+
+        function applyTonePanPixels(p) {
+          img.style.left = '0';
+          var cw = grid.clientWidth;
+          var iw = img.offsetWidth;
+          var maxPan = Math.min(0, cw - iw);
+          img.style.transform = 'translate3d(' + maxPan * p + 'px, 0, 0)';
+        }
+
+        function panReducedMotion() {
+          img.style.left = '50%';
+          img.style.transform = 'translate3d(-50%, 0, 0)';
+        }
+
+        function tick() {
+          if (mqReduce.matches) {
+            prevToneStep = 0;
+            rafId = null;
+            return;
+          }
+          var target = tonePanProgress();
+          var delta = target - smoothP;
+          var desiredStep = delta * gain;
+          if (Math.abs(desiredStep) > maxSpeed) desiredStep = Math.sign(desiredStep) * maxSpeed;
+          var stepJump = desiredStep - prevToneStep;
+          if (Math.abs(stepJump) > maxAccel) desiredStep = prevToneStep + Math.sign(stepJump) * maxAccel;
+          prevToneStep = desiredStep;
+          smoothP += desiredStep;
+          applyTonePanPixels(smoothP);
+          if (Math.abs(target - smoothP) > 0.00035) {
+            rafId = requestAnimationFrame(tick);
+          } else {
+            smoothP = target;
+            prevToneStep = 0;
+            applyTonePanPixels(smoothP);
+            rafId = null;
+          }
+        }
+
+        function schedule() {
+          if (mqReduce.matches) {
+            if (rafId) {
+              cancelAnimationFrame(rafId);
+              rafId = null;
+            }
+            prevToneStep = 0;
+            panReducedMotion();
+            return;
+          }
+          if (!rafId) rafId = requestAnimationFrame(tick);
+        }
+
+        function initPanState() {
+          if (mqReduce.matches) {
+            panReducedMotion();
+          } else {
+            prevToneStep = 0;
+            smoothP = tonePanProgress();
+            applyTonePanPixels(smoothP);
+          }
+        }
+
+        function onReduceChange() {
+          if (rafId) {
+            cancelAnimationFrame(rafId);
+            rafId = null;
+          }
+          if (mqReduce.matches) {
+            prevToneStep = 0;
+            panReducedMotion();
+          } else {
+            prevToneStep = 0;
+            smoothP = tonePanProgress();
+            schedule();
+          }
+        }
+
+        if (img.complete) initPanState();
+        else img.addEventListener('load', initPanState);
+
+        window.addEventListener('scroll', schedule, { passive: true });
+        window.addEventListener('resize', schedule);
+        if (mqReduce.addEventListener) mqReduce.addEventListener('change', onReduceChange);
+        else if (mqReduce.addListener) mqReduce.addListener(onReduceChange);
+
+        var ro =
+          typeof ResizeObserver !== 'undefined'
+            ? new ResizeObserver(function () {
+                window.requestAnimationFrame(schedule);
+              })
+            : null;
+        if (ro) ro.observe(grid);
+      })();
+    </script>
+    <script>
+      (function () {
         var mq = window.matchMedia('(min-width: 960px)');
         var dock = document.querySelector('.site-header--dock');
         var freeSound = document.getElementById('free-the-sound');
@@ -870,6 +1011,10 @@
         var form = document.getElementById('waitlist-form-el');
         var success = document.getElementById('waitlist-success');
         if (!form || !success) return;
+
+        var errorEl = document.getElementById('waitlist-form-error');
+        var submitBtn = document.getElementById('waitlist-submit') || form.querySelector('button[type="submit"]');
+        if (!errorEl || !submitBtn) return;
 
         var rolesWidget = document.getElementById('waitlist-roles-widget');
         var rolesTrigger = document.getElementById('waitlist-roles-trigger');
@@ -1015,17 +1160,129 @@
           window.addEventListener('scroll', onRolesPanelViewportChange, true);
         }
 
+        function stripHtml(html) {
+          var d = document.createElement('div');
+          d.innerHTML = html;
+          return (d.textContent || d.innerText || '').trim();
+        }
+
+        function mailchimpJsonpSubscribe(payload, timeoutMs, cb) {
+          var base = payload.base.replace(/\/+$/, '');
+          var cbName = 'mc_jsonp_' + Date.now();
+          var script = document.createElement('script');
+          var tid = window.setTimeout(function () {
+            try {
+              delete window[cbName];
+              if (script.parentNode) script.parentNode.removeChild(script);
+            } catch (e2) {}
+            cb(new Error('Request timed out. Please try again.'));
+          }, timeoutMs || 20000);
+
+          window[cbName] = function (data) {
+            window.clearTimeout(tid);
+            try {
+              cb(null, data);
+            } finally {
+              delete window[cbName];
+              if (script.parentNode) script.parentNode.removeChild(script);
+            }
+          };
+
+          var params = new URLSearchParams();
+          params.set('u', payload.u);
+          params.set('id', payload.id);
+          params.set('EMAIL', payload.email);
+          if (payload.fname) params.set('FNAME', payload.fname);
+          if (payload.rolesMerge && payload.rolesText) params.set(payload.rolesMerge, payload.rolesText);
+          params.set('c', cbName);
+
+          script.src = base + '/subscribe/post-json?' + params.toString();
+          script.onerror = function () {
+            window.clearTimeout(tid);
+            try {
+              delete window[cbName];
+            } catch (e3) {}
+            if (script.parentNode) script.parentNode.removeChild(script);
+            cb(new Error('Could not reach signup service.'));
+          };
+          document.body.appendChild(script);
+        }
+
+        function showWaitlistError(msg) {
+          errorEl.textContent = msg;
+          errorEl.hidden = false;
+        }
+
+        function clearWaitlistError() {
+          errorEl.textContent = '';
+          errorEl.hidden = true;
+        }
+
+        function setSubmitLoading(on) {
+          submitBtn.disabled = on;
+          submitBtn.setAttribute('aria-busy', on ? 'true' : 'false');
+        }
+
         form.addEventListener('submit', function (e) {
           e.preventDefault();
+          clearWaitlistError();
           if (!form.checkValidity()) {
             form.reportValidity();
             return;
           }
-          form.setAttribute('hidden', '');
-          form.setAttribute('aria-hidden', 'true');
-          success.removeAttribute('hidden');
-          success.focus();
-          success.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+          var base = form.dataset.mcBase && form.dataset.mcBase.trim();
+          var u = form.dataset.mcU && form.dataset.mcU.trim();
+          var id = form.dataset.mcId && form.dataset.mcId.trim();
+          var rolesMerge = (form.dataset.mcMergeRoles || 'MERGE5').trim();
+
+          if (!base || !u || !id) {
+            showWaitlistError(
+              'Signup isn’t configured yet. Add Mailchimp data-mc-base, data-mc-u, and data-mc-id on the form in index.html.'
+            );
+            return;
+          }
+
+          var emailInput = form.querySelector('input[name="email"]');
+          var nameInput = form.querySelector('input[name="name"]');
+          var email = emailInput ? emailInput.value.trim() : '';
+          var fname = nameInput ? nameInput.value.trim() : '';
+          var rolesText = rolesSummaryParts().join('; ');
+
+          setSubmitLoading(true);
+
+          mailchimpJsonpSubscribe(
+            {
+              base: base,
+              u: u,
+              id: id,
+              email: email,
+              fname: fname,
+              rolesMerge: rolesMerge,
+              rolesText: rolesText
+            },
+            22000,
+            function (err, data) {
+              setSubmitLoading(false);
+              if (err) {
+                showWaitlistError(err.message || 'Something went wrong. Please try again.');
+                return;
+              }
+              if (!data || data.result !== 'success') {
+                var raw =
+                  data && typeof data.msg === 'string'
+                    ? data.msg
+                    : 'Could not subscribe. Please try again.';
+                showWaitlistError(stripHtml(raw));
+                return;
+              }
+              form.setAttribute('hidden', '');
+              form.setAttribute('aria-hidden', 'true');
+              success.removeAttribute('hidden');
+              success.focus();
+              success.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+          );
         });
       })();
     </script>
