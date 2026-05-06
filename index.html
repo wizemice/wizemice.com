@@ -11,6 +11,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
+    <script src="assets/mailchimp-config.js"></script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
@@ -98,16 +99,6 @@
           <div class="hero__cta-track">
             <a class="btn-waitlist" href="#waitlist"><span class="btn-waitlist__inner"><span class="btn-waitlist__label">Join the Waitlist</span></span></a>
           </div>
-
-          <section class="free-sound" id="free-the-sound" aria-labelledby="free-sound-heading">
-            <h2 id="free-sound-heading" class="visually-hidden">Free the sound</h2>
-            <div class="free-sound__sticky">
-              <div class="free-sound__stage">
-                <p class="free-sound__line free-sound__line--top">FREE THE</p>
-                <p class="free-sound__line free-sound__line--bottom">SOUND</p>
-              </div>
-            </div>
-          </section>
 
           <section class="features" aria-label="Product features">
           <article class="feature-card">
@@ -329,7 +320,7 @@
           <div class="faq__inner">
             <header class="faq__head">
               <h2 id="faq-heading" class="faq__title">
-                <span class="faq__title-wize">Wize</span><span class="faq__title-core">Core</span><span class="faq__title-tag"> – FAQ</span>
+                <span class="faq__title-wize">Wize</span><span class="faq__title-core">Core</span><span class="faq__title-tag"> FAQ</span>
               </h2>
             </header>
             <div class="faq__accordion">
@@ -338,8 +329,8 @@
                 <div class="faq__answer">
                   <p>
                     Yes. Although WizeCore works as a standalone unit, it can also connect seamlessly to phones,
-                    tablets, and desktops. It integrates as a VST plugin within your DAW and includes built-in Wi-Fi
-                    and Bluetooth for wireless control, updates, and communication.
+                    tablets, and desktops. It integrates as a VST plugin within your DAW and includes built in WiFi and
+                    Bluetooth for wireless control, updates, and communication.
                   </p>
                 </div>
               </details>
@@ -350,9 +341,9 @@
                   <ul class="faq__bullets">
                     <li>1/4<span aria-label="inch">″</span></li>
                     <li>XLR</li>
-                    <li>USB-C MIDI</li>
+                    <li>USB C MIDI</li>
                     <li>Dedicated microphone preamp</li>
-                    <li>High-Z and Low-Z inputs</li>
+                    <li>High Z and Low Z inputs</li>
                   </ul>
                   <p>This makes it compatible with guitars, microphones, synths, and more.</p>
                 </div>
@@ -372,7 +363,7 @@
                   <p>You can download plugins directly from our curated store, or install additional ones from popular LV2 plugin sources such as:</p>
                   <ul class="faq__bullets">
                     <li>MOD Audio</li>
-                    <li>Guitarix</li>
+                    <li>Patchstorage</li>
                     <li>KXStudio</li>
                   </ul>
                 </div>
@@ -381,8 +372,8 @@
                 <summary class="faq__question">Which plugins can run on WizeCore?</summary>
                 <div class="faq__answer">
                   <p>
-                    WizeCore supports any plugin compatible with Raspberry Pi architecture (ARM-based systems). In
-                    general, this includes LV2 plugins designed for Linux-based environments.
+                    WizeCore supports any plugin compatible with Raspberry Pi architecture (ARM based systems). In
+                    general, this includes LV2 plugins designed for Linux based environments.
                   </p>
                 </div>
               </details>
@@ -390,7 +381,7 @@
                 <summary class="faq__question">Are the plugins free?</summary>
                 <div class="faq__answer">
                   <p>
-                    Many plugins are open-source and free to use. In addition, premium plugins from third-party vendors
+                    Many plugins are open source and free to use. In addition, premium plugins from third party vendors
                     will also be available through the store.
                   </p>
                   <p>You will also be able to publish and sell your own plugins through the WizeCore store.</p>
@@ -400,7 +391,7 @@
                 <summary class="faq__question">What kind of power supply does it use?</summary>
                 <div class="faq__answer">
                   <p>
-                    WizeCore is powered via 5V USB-C, making it easy to use with standard adapters and portable power
+                    WizeCore is powered via 5V USB C, making it easy to use with standard adapters and portable power
                     solutions.
                   </p>
                 </div>
@@ -410,7 +401,7 @@
                 <div class="faq__answer">
                   <p>
                     WizeCore features an integrated touchscreen for direct control, along with three footswitches for
-                    hands-free operation—ideal for live performance and quick preset switching.
+                    hands free operation, ideal for live performance and quick preset switching.
                   </p>
                 </div>
               </details>
@@ -418,7 +409,7 @@
                 <summary class="faq__question">How are updates handled?</summary>
                 <div class="faq__answer">
                   <p>
-                    System and plugin updates are delivered via Wi-Fi, allowing you to easily keep your device up to date
+                    System and plugin updates are delivered via WiFi, allowing you to easily keep your device up to date
                     with new features, improvements, and security fixes.
                   </p>
                 </div>
@@ -427,7 +418,7 @@
                 <summary class="faq__question">When can I buy it?</summary>
                 <div class="faq__answer">
                   <p>
-                    WizeCore is expected to be available in a limited pre-sale batch starting in June 2026, with full
+                    WizeCore is expected to be available in a limited early sale batch starting in June 2026, with full
                     production planned for late 2027.
                   </p>
                 </div>
@@ -454,13 +445,13 @@
                 <summary class="faq__question">Can I record audio with WizeCore?</summary>
                 <div class="faq__answer">
                   <p>
-                    Yes. WizeCore includes a built-in looper and a micro-DAW, allowing you to record and experiment
+                    Yes. WizeCore includes a built in looper and a micro DAW, allowing you to record and experiment
                     directly on the device.
                   </p>
                 </div>
               </details>
               <details class="faq__item">
-                <summary class="faq__question">Is it open-source?</summary>
+                <summary class="faq__question">Is it open source?</summary>
                 <div class="faq__answer">
                   <p>Not fully. However, parts of the software and plugin ecosystem will be made available to the community.</p>
                 </div>
@@ -484,12 +475,7 @@
             </h2>
             <p class="waitlist-section__lead">Get early access and updates as we get closer to release.</p>
           </header>
-          <!--
-            Mailchimp: Audience → Signup forms → Embedded forms → Unstyled (or your layout).
-            Paste the form action URL → data-mc-base is origin only (e.g. https://xxxx.us21.list-manage.com).
-            Copy hidden fields "u" and "id" → data-mc-u / data-mc-id.
-            Add Audience → Settings → Audience fields: Text field “Roles” → use its merge tag (often MERGE5) in data-mc-merge-roles.
-          -->
+          <!-- Values: edit assets/mailchimp-config.js (optional overrides: data-mc-* on this form) -->
           <form
             class="waitlist-form"
             id="waitlist-form-el"
@@ -587,6 +573,22 @@
                   />
                 </label>
               </div>
+              <div class="waitlist-form__consent">
+                <label class="waitlist-form__consent-label" for="waitlist-consent-privacy">
+                  <input
+                    type="checkbox"
+                    id="waitlist-consent-privacy"
+                    name="privacy_consent"
+                    value="yes"
+                    required
+                  />
+                  <span
+                    >I agree to receive email updates about WizeCore from WizeMice and have read the
+                    <a href="privacy.html">Privacy&nbsp;Policy</a>.
+                    <span class="waitlist-form__required">(required)</span></span
+                  >
+                </label>
+              </div>
               <p class="waitlist-form__error" id="waitlist-form-error" hidden role="alert"></p>
               <button type="submit" class="btn-waitlist" id="waitlist-submit">
                 <span class="btn-waitlist__inner"><span class="btn-waitlist__label">Subscribe</span></span>
@@ -612,6 +614,9 @@
       <footer class="site-footer" id="footer">
         <div class="site-footer__inner">
           <p class="site-footer__copyright">© 2026 WizeMice. All rights reserved.</p>
+          <nav class="site-footer__legal" aria-label="Legal">
+            <a href="privacy.html">Privacy</a>
+          </nav>
           <div class="site-footer__contact-block">
             <p class="site-footer__contact-label">Contact</p>
             <p class="site-footer__email-line">
@@ -680,7 +685,25 @@
           </nav>
         </div>
       </footer>
+
+      <div
+        id="site-compliance-notice"
+        class="site-compliance-notice"
+        hidden
+        role="region"
+        aria-label="Privacy and data use"
+      >
+        <div class="site-compliance-notice__inner">
+          <p class="site-compliance-notice__text">
+            We use <strong>Google Fonts</strong> and <strong>Mailchimp</strong> for the waitlist. We store one preference
+            in your browser so this notice stays dismissed. See the
+            <a href="privacy.html">Privacy Policy</a>.
+          </p>
+          <button type="button" class="site-compliance-notice__ok" id="site-compliance-notice-ok">OK</button>
+        </div>
+      </div>
     </div>
+    <script src="assets/compliance-notice.js"></script>
     <script>
       (function () {
         var header = document.querySelector('.site-header--scroll');
@@ -718,98 +741,6 @@
         syncStickyCta();
         window.addEventListener('scroll', syncStickyCta, { passive: true });
         window.addEventListener('resize', syncStickyCta);
-      })();
-    </script>
-    <script>
-      (function () {
-        var section = document.querySelector('.free-sound');
-        var topLine = section && section.querySelector('.free-sound__line--top');
-        var bottomLine = section && section.querySelector('.free-sound__line--bottom');
-        if (!section || !topLine || !bottomLine) return;
-
-        var mq = window.matchMedia('(prefers-reduced-motion: reduce)');
-        var rafId = null;
-        var smoothP = 0;
-        /** Limits jerk between frames — slow ramp-up / ramp-down */
-        var prevStep = 0;
-
-        function clamp01(x) {
-          return x <= 0 ? 0 : x >= 1 ? 1 : x;
-        }
-
-        /** Peak opacity at p = 0.5 (mid scrub); fades in/out toward ends */
-        function opacityFromProgress(p) {
-          var x = clamp01(p);
-          if (x <= 0.5) return x / 0.5;
-          return (1 - x) / 0.5;
-        }
-
-        function targetPFromScroll() {
-          var rect = section.getBoundingClientRect();
-          var vh = window.innerHeight;
-          var h = section.offsetHeight || 1;
-          var denom = vh + h;
-          return clamp01((vh - rect.top) / denom);
-        }
-
-        function applyTransforms(p) {
-          /** Endpoints ±50vw — lines start/end halfway across viewport vs ±100vw */
-          var txTop = -50 + p * 100;
-          var txBot = 50 - p * 100;
-          var o = opacityFromProgress(p);
-          topLine.style.transform = 'translate3d(' + txTop + 'vw, 0, 0)';
-          bottomLine.style.transform = 'translate3d(' + txBot + 'vw, 0, 0)';
-          topLine.style.opacity = String(o);
-          bottomLine.style.opacity = String(o);
-        }
-
-        function tick() {
-          if (mq.matches) {
-            topLine.style.transform = 'translate3d(0, 0, 0)';
-            bottomLine.style.transform = 'translate3d(0, 0, 0)';
-            topLine.style.opacity = '1';
-            bottomLine.style.opacity = '1';
-            prevStep = 0;
-            rafId = null;
-            return;
-          }
-
-          var target = targetPFromScroll();
-          /** Slow follow: low gain + hard speed cap + capped acceleration between frames */
-          var delta = target - smoothP;
-          var gain = 0.018;
-          var maxSpeed = 0.00585;
-          var maxAccel = 0.00052;
-          var desiredStep = delta * gain;
-          if (Math.abs(desiredStep) > maxSpeed) desiredStep = Math.sign(desiredStep) * maxSpeed;
-          var stepJump = desiredStep - prevStep;
-          if (Math.abs(stepJump) > maxAccel) desiredStep = prevStep + Math.sign(stepJump) * maxAccel;
-          prevStep = desiredStep;
-          smoothP += desiredStep;
-
-          applyTransforms(smoothP);
-
-          if (Math.abs(target - smoothP) > 0.000488) {
-            rafId = requestAnimationFrame(tick);
-          } else {
-            smoothP = target;
-            prevStep = 0;
-            applyTransforms(smoothP);
-            rafId = null;
-          }
-        }
-
-        function schedule() {
-          if (!rafId) rafId = requestAnimationFrame(tick);
-        }
-
-        smoothP = targetPFromScroll();
-        applyTransforms(smoothP);
-
-        if (mq.addEventListener) mq.addEventListener('change', tick);
-        else if (mq.addListener) mq.addListener(tick);
-        window.addEventListener('scroll', schedule, { passive: true });
-        window.addEventListener('resize', schedule);
       })();
     </script>
     <script>
@@ -854,7 +785,7 @@
         var rafId = null;
         /** Smoothed scroll progress (0–1), eased toward live target */
         var smoothP = 0;
-        /** Limits jerk between frames — ramp-up / ramp-down like `.free-sound` lines */
+        /** Limits jerk between frames — ramp-up / ramp-down */
         var prevToneStep = 0;
         var gain = 0.034;
         var maxSpeed = 0.00125;
@@ -969,8 +900,8 @@
       (function () {
         var mq = window.matchMedia('(min-width: 960px)');
         var dock = document.querySelector('.site-header--dock');
-        var freeSound = document.getElementById('free-the-sound');
-        if (!dock || !freeSound) return;
+        var featuresBand = document.querySelector('.features');
+        if (!dock || !featuresBand) return;
 
         var headerCta = dock.querySelector('.site-header__cta');
 
@@ -992,8 +923,8 @@
             setDockInteractive(false);
             return;
           }
-          /** Dock slides in once “Free the sound” has scrolled up past the viewport top */
-          var show = freeSound.getBoundingClientRect().top < 0;
+          /** Dock slides in once the features band has scrolled up past the viewport top */
+          var show = featuresBand.getBoundingClientRect().top < 0;
           dock.classList.toggle('site-header--dock-visible', show);
           dock.setAttribute('aria-hidden', show ? 'false' : 'true');
           setDockInteractive(show);
@@ -1011,6 +942,22 @@
         var form = document.getElementById('waitlist-form-el');
         var success = document.getElementById('waitlist-success');
         if (!form || !success) return;
+
+        var mcCfg = window.WIZEMICE_MAILCHIMP;
+        if (mcCfg && typeof mcCfg === 'object') {
+          function applyMcFromConfig(attr, key) {
+            var cur = (form.getAttribute(attr) || '').trim();
+            if (cur) return;
+            var v = mcCfg[key];
+            if (v != null && String(v).trim()) form.setAttribute(attr, String(v).trim());
+          }
+          applyMcFromConfig('data-mc-base', 'base');
+          applyMcFromConfig('data-mc-u', 'u');
+          applyMcFromConfig('data-mc-id', 'id');
+          if (!(form.getAttribute('data-mc-merge-roles') || '').trim() && mcCfg.mergeRoles != null && String(mcCfg.mergeRoles).trim()) {
+            form.setAttribute('data-mc-merge-roles', String(mcCfg.mergeRoles).trim());
+          }
+        }
 
         var errorEl = document.getElementById('waitlist-form-error');
         var submitBtn = document.getElementById('waitlist-submit') || form.querySelector('button[type="submit"]');
@@ -1238,7 +1185,7 @@
 
           if (!base || !u || !id) {
             showWaitlistError(
-              'Signup isn’t configured yet. Add Mailchimp data-mc-base, data-mc-u, and data-mc-id on the form in index.html.'
+              'Signup isn’t configured yet. Set base, u, and id in assets/mailchimp-config.js (or data-mc-* on the form).'
             );
             return;
           }
