@@ -577,8 +577,9 @@ button.btn-waitlist {
   position: relative;
   width: 100%;
   max-width: var(--feature-media-max);
-  aspect-ratio: 324 / 141;
+  aspect-ratio: 4 / 3;
   overflow: hidden;
+  background: transparent;
 }
 
 .feature-card__media img {
@@ -586,6 +587,8 @@ button.btn-waitlist {
   height: 100%;
   object-fit: cover;
   object-position: center center;
+  border: 1px solid #dfdfdf;
+  box-sizing: border-box;
 }
 
 .title-gradient {
@@ -705,6 +708,9 @@ button.btn-waitlist {
   overflow: hidden;
   border-radius: 6px;
   flex-shrink: 0;
+  border: 1px solid #dfdfdf;
+  box-sizing: border-box;
+  background-color: var(--bg);
 }
 
 .tone__pan {
@@ -789,7 +795,7 @@ button.btn-waitlist {
 
 .analog-cards__visual img {
   width: 100%;
-  max-width: min(300px, 100%);
+  max-width: min(260px, 100%);
   height: auto;
   display: block;
 }
@@ -2379,7 +2385,9 @@ button.btn-waitlist {
     aspect-ratio: 1 / 1;
     overflow: hidden;
     border-radius: 8px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    border: 1px solid #dfdfdf;
+    box-sizing: border-box;
+    background-color: var(--bg);
   }
 
   .tone__text-column {

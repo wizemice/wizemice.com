@@ -103,7 +103,7 @@
           <section class="features" aria-label="Product features">
           <article class="feature-card">
             <div class="feature-card__media">
-              <img src="assets/feat-selling-plugins.png" alt="" width="324" height="141" decoding="async" />
+              <img src="assets/feat-selling-plugins.png" alt="" width="800" height="600" decoding="async" />
             </div>
             <h2 class="feature-card__title">Open for third party plugins</h2>
             <p class="feature-card__text">Download and run effects from our cloud or anywhere in the internet</p>
@@ -111,7 +111,7 @@
 
           <article class="feature-card">
             <div class="feature-card__media">
-              <img src="assets/feat-selling-instruments.png" alt="" width="324" height="141" decoding="async" />
+              <img src="assets/feat-selling-instruments.png" alt="" width="800" height="600" decoding="async" />
             </div>
             <h2 class="feature-card__title">Built for any instrument</h2>
             <p class="feature-card__text">Guitar, Bass, Midi Keyboard, Vocals. Anything goes on WizeCore.</p>
@@ -119,7 +119,7 @@
 
           <article class="feature-card">
             <div class="feature-card__media">
-              <img src="assets/feat-selling-pcb.png" alt="" width="324" height="141" decoding="async" />
+              <img src="assets/feat-selling-pcb.png" alt="" width="800" height="600" decoding="async" />
             </div>
             <h2 class="feature-card__title">High processing power</h2>
             <p class="feature-card__text">Run multiple powerful plugins with ease</p>
@@ -302,14 +302,15 @@
               <p class="specs__subtitle">Technical specifications</p>
             </div>
             <ul class="specs__list">
-              <li><span class="qty">1x</span> Combo input (XLR &amp; 1/4<span aria-label="inch">″</span>)</li>
-              <li><span class="qty">2x</span> 1/4<span aria-label="inch">″</span> input (stereo)</li>
-              <li><span class="qty">2x</span> 1/4<span aria-label="inch">″</span> output (stereo)</li>
-              <li><span class="qty">2x</span> XLR output (stereo)</li>
+              <li><span class="qty">1x</span> Combo input (XLR or 1/4<span aria-label="inch">″</span>)</li>
+              <li><span class="qty">1x</span> 1/4<span aria-label="inch">″</span> input (stereo right)</li>
+              <li><span class="qty">2x</span> 1/4<span aria-label="inch">″</span> output (stereo amp out)</li>
+              <li><span class="qty">2x</span> XLR output (stereo line out)</li>
               <li><span class="qty">1x</span> 1/4<span aria-label="inch">″</span> send output</li>
               <li><span class="qty">1x</span> 1/4<span aria-label="inch">″</span> return input</li>
-              <li><span class="qty">1x</span> USB-C input (midi)</li>
-              <li><span class="qty">1x</span> 5v USB-C (power supply)</li>
+              <li><span class="qty">1x</span> USB-A input (MIDI)</li>
+              <li><span class="qty">1x</span> 5V USB-C (power supply)</li>
+              <li><span class="qty">1x</span> USB-C (interface/control)</li>
               <li>6.25<span aria-label="inch">″</span> touchscreen (720×1560)</li>
               <li>Raspberry CM5</li>
             </ul>
@@ -335,25 +336,125 @@
                 </div>
               </details>
               <details class="faq__item">
-                <summary class="faq__question">What instruments and inputs are supported?</summary>
+                <summary class="faq__question">Can I plug a microphone directly into it?</summary>
                 <div class="faq__answer">
-                  <p>WizeCore supports a wide range of connections, including:</p>
-                  <ul class="faq__bullets">
-                    <li>1/4<span aria-label="inch">″</span></li>
-                    <li>XLR</li>
-                    <li>USB C MIDI</li>
-                    <li>Dedicated microphone preamp</li>
-                    <li>High Z and Low Z inputs</li>
-                  </ul>
-                  <p>This makes it compatible with guitars, microphones, synths, and more.</p>
+                  <p>Yes.</p>
+                  <p>
+                    The combo input supports XLR microphones and 1/4<span aria-label="inch">″</span> instrument cables.
+                    The XLR mic input is balanced, which helps reduce noise and interference during live use or recording.
+                  </p>
                 </div>
               </details>
               <details class="faq__item">
                 <summary class="faq__question">Does WizeCore support stereo input and output?</summary>
                 <div class="faq__answer">
+                  <p>Yes.</p>
                   <p>
-                    Yes. WizeCore supports full stereo input and output, making it suitable for studio setups, live
-                    performance rigs, and spatial effects processing.
+                    WizeCore supports stereo signal routing with independent left and right connections for both input and
+                    output. You can run stereo rigs, dual amp setups, synths, backing tracks, or complex effect chains
+                    without needing external routing hardware.
+                  </p>
+                </div>
+              </details>
+              <details class="faq__item">
+                <summary class="faq__question">What instruments work with WizeCore?</summary>
+                <div class="faq__answer">
+                  <p>Pretty much anything you can throw at it.</p>
+                  <p>
+                    Guitar, bass, synths, MIDI controllers, drum machines, vocals, experimental setups, weird homemade
+                    instruments connected with too many cables…
+                  </p>
+                  <p>We respect all of them equally.</p>
+                </div>
+              </details>
+              <details class="faq__item">
+                <summary class="faq__question">Does it support external effects pedals?</summary>
+                <div class="faq__answer">
+                  <p>Yes.</p>
+                  <p>
+                    WizeCore includes a dedicated send/return loop, so you can integrate external analog pedals directly
+                    into your signal chain.
+                  </p>
+                  <p>
+                    That means you can combine plugins, digital processing, and your favorite physical pedals in the same
+                    setup.
+                  </p>
+                </div>
+              </details>
+              <details class="faq__item">
+                <summary class="faq__question">Can I use MIDI devices?</summary>
+                <div class="faq__answer">
+                  <p>Yes.</p>
+                  <p>
+                    WizeCore supports MIDI connectivity through USB, allowing you to connect MIDI controllers, keyboards,
+                    sequencers, and other compatible devices.
+                  </p>
+                </div>
+              </details>
+              <details class="faq__item">
+                <summary class="faq__question">Can it work as an audio interface?</summary>
+                <div class="faq__answer">
+                  <p>Yes.</p>
+                  <p>
+                    The USB-C interface/control connection allows integration with computers and external software for
+                    audio workflows, control, and future software expansion.
+                  </p>
+                </div>
+              </details>
+              <details class="faq__item">
+                <summary class="faq__question">Is the touchscreen capacitive?</summary>
+                <div class="faq__answer">
+                  <p>Yes.</p>
+                  <p>
+                    The 6.25<span aria-label="inch">″</span> touchscreen uses capacitive touch, similar to modern phones
+                    and tablets, making navigation fast and responsive during live use.
+                  </p>
+                </div>
+              </details>
+              <details class="faq__item">
+                <summary class="faq__question">What is the user interface like?</summary>
+                <div class="faq__answer">
+                  <p>
+                    WizeCore features an integrated touchscreen for direct control, along with three footswitches for
+                    hands free operation, ideal for live performance and quick preset switching.
+                  </p>
+                </div>
+              </details>
+              <details class="faq__item">
+                <summary class="faq__question">What computer powers the system?</summary>
+                <div class="faq__answer">
+                  <p>WizeCore runs on a Raspberry Pi CM5.</p>
+                  <p>
+                    That gives it the flexibility of a compact computer inside a stage ready hardware format.
+                  </p>
+                  <p>Basically:</p>
+                  <p>computer brain, pedal body.</p>
+                </div>
+              </details>
+              <details class="faq__item">
+                <summary class="faq__question">Is it powered through USB-C?</summary>
+                <div class="faq__answer">
+                  <p>Yes.</p>
+                  <p>WizeCore uses a 5V USB-C power input.</p>
+                </div>
+              </details>
+              <details class="faq__item">
+                <summary class="faq__question">Are the outputs balanced?</summary>
+                <div class="faq__answer">
+                  <p>The XLR outputs are balanced.</p>
+                  <p>
+                    This is useful for cleaner signal transmission in studio environments and live stages with longer
+                    cable runs.
+                  </p>
+                </div>
+              </details>
+              <details class="faq__item">
+                <summary class="faq__question">Can I use it for live performance?</summary>
+                <div class="faq__answer">
+                  <p>That’s exactly what it’s built for.</p>
+                  <p>
+                    The idea was never to replace creativity with menus and tiny screens. It’s meant to give you the
+                    flexibility of software in a format that actually belongs on a stage.
                   </p>
                 </div>
               </details>
@@ -385,24 +486,6 @@
                     will also be available through the store.
                   </p>
                   <p>You will also be able to publish and sell your own plugins through the WizeCore store.</p>
-                </div>
-              </details>
-              <details class="faq__item">
-                <summary class="faq__question">What kind of power supply does it use?</summary>
-                <div class="faq__answer">
-                  <p>
-                    WizeCore is powered via 5V USB C, making it easy to use with standard adapters and portable power
-                    solutions.
-                  </p>
-                </div>
-              </details>
-              <details class="faq__item">
-                <summary class="faq__question">What is the user interface like?</summary>
-                <div class="faq__answer">
-                  <p>
-                    WizeCore features an integrated touchscreen for direct control, along with three footswitches for
-                    hands free operation, ideal for live performance and quick preset switching.
-                  </p>
                 </div>
               </details>
               <details class="faq__item">
@@ -1247,7 +1330,7 @@
             name: 'Karan Klos',
             roleHtml: 'Chief Executive Officer (CEO)',
             tagline:
-              'Can play any song on the piano. Pro player of at least 4 different instruments.',
+              'Can play any pop song on the piano. Pro player of at least 4 different instruments.',
             src: 'assets/team-karan.png'
           },
           {
