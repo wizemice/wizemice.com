@@ -22,7 +22,12 @@ const CURSOR_PROJECT =
 
 function resolveSrc(fragment) {
   if (!fs.existsSync(CURSOR_PROJECT)) throw new Error('Cursor assets folder not found: ' + CURSOR_PROJECT);
-  const hit = fs.readdirSync(CURSOR_PROJECT).find((n) => n.includes(fragment));
+  const names = fs.readdirSync(CURSOR_PROJECT);
+  const preferred = `${fragment}.png`;
+  const exact = names.find((n) => n === preferred);
+  const hit =
+    exact ??
+    names.sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' })).find((n) => n.includes(fragment));
   if (!hit) throw new Error('No file matching "' + fragment + '" in ' + CURSOR_PROJECT);
   return path.join(CURSOR_PROJECT, hit);
 }
@@ -67,4 +72,4 @@ async function processPair(fragment, filename) {
 
 await processPair('rat_meteor_ride', 'feat-selling-plugins.png');
 await processPair('instruments_outline', 'feat-selling-instruments.png');
-await processPair('processor-', 'feat-selling-pcb.png');
+await processPair('processor-fa40e228', 'feat-selling-pcb.png');
