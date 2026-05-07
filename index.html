@@ -324,7 +324,8 @@
                 <span class="faq__title-wize">Wize</span><span class="faq__title-core">Core</span><span class="faq__title-tag"> FAQ</span>
               </h2>
             </header>
-            <div class="faq__accordion">
+            <div class="faq__stack">
+              <div class="faq__accordion faq__accordion--featured" aria-label="Featured questions">
               <details class="faq__item">
                 <summary class="faq__question">Can I connect WizeCore to other devices?</summary>
                 <div class="faq__answer">
@@ -382,6 +383,41 @@
                 </div>
               </details>
               <details class="faq__item">
+                <summary class="faq__question">Can I use it for live performance?</summary>
+                <div class="faq__answer">
+                  <p>That’s exactly what it’s built for.</p>
+                  <p>
+                    The idea was never to replace creativity with menus and tiny screens. It’s meant to give you the
+                    flexibility of software in a format that actually belongs on a stage.
+                  </p>
+                </div>
+              </details>
+              <details class="faq__item">
+                <summary class="faq__question">Where can I get new plugins?</summary>
+                <div class="faq__answer">
+                  <p>You can download plugins directly from our curated store, or install additional ones from popular LV2 plugin sources such as:</p>
+                  <ul class="faq__bullets">
+                    <li>MOD Audio</li>
+                    <li>Patchstorage</li>
+                    <li>KXStudio</li>
+                  </ul>
+                </div>
+              </details>
+              <details class="faq__item">
+                <summary class="faq__question">When can I buy it?</summary>
+                <div class="faq__answer">
+                  <p>
+                    WizeCore is expected to be available in a limited early sale batch starting in June 2026, with full
+                    production planned for late 2027.
+                  </p>
+                </div>
+              </details>
+              </div>
+
+              <details class="faq__expand" id="faq-expand-all">
+                <summary class="faq__expand-summary">Show all questions (13 more)</summary>
+                <div class="faq__accordion faq__accordion--more" aria-label="More questions">
+              <details class="faq__item">
                 <summary class="faq__question">Can I use MIDI devices?</summary>
                 <div class="faq__answer">
                   <p>Yes.</p>
@@ -398,16 +434,6 @@
                   <p>
                     The USB-C interface/control connection allows integration with computers and external software for
                     audio workflows, control, and future software expansion.
-                  </p>
-                </div>
-              </details>
-              <details class="faq__item">
-                <summary class="faq__question">Is the touchscreen capacitive?</summary>
-                <div class="faq__answer">
-                  <p>Yes.</p>
-                  <p>
-                    The 6.25<span aria-label="inch">″</span> touchscreen uses capacitive touch, similar to modern phones
-                    and tablets, making navigation fast and responsive during live use.
                   </p>
                 </div>
               </details>
@@ -449,27 +475,6 @@
                 </div>
               </details>
               <details class="faq__item">
-                <summary class="faq__question">Can I use it for live performance?</summary>
-                <div class="faq__answer">
-                  <p>That’s exactly what it’s built for.</p>
-                  <p>
-                    The idea was never to replace creativity with menus and tiny screens. It’s meant to give you the
-                    flexibility of software in a format that actually belongs on a stage.
-                  </p>
-                </div>
-              </details>
-              <details class="faq__item">
-                <summary class="faq__question">Where can I get new plugins?</summary>
-                <div class="faq__answer">
-                  <p>You can download plugins directly from our curated store, or install additional ones from popular LV2 plugin sources such as:</p>
-                  <ul class="faq__bullets">
-                    <li>MOD Audio</li>
-                    <li>Patchstorage</li>
-                    <li>KXStudio</li>
-                  </ul>
-                </div>
-              </details>
-              <details class="faq__item">
                 <summary class="faq__question">Which plugins can run on WizeCore?</summary>
                 <div class="faq__answer">
                   <p>
@@ -494,15 +499,6 @@
                   <p>
                     System and plugin updates are delivered via WiFi, allowing you to easily keep your device up to date
                     with new features, improvements, and security fixes.
-                  </p>
-                </div>
-              </details>
-              <details class="faq__item">
-                <summary class="faq__question">When can I buy it?</summary>
-                <div class="faq__answer">
-                  <p>
-                    WizeCore is expected to be available in a limited early sale batch starting in June 2026, with full
-                    production planned for late 2027.
                   </p>
                 </div>
               </details>
@@ -539,9 +535,27 @@
                   <p>Not fully. However, parts of the software and plugin ecosystem will be made available to the community.</p>
                 </div>
               </details>
+                </div>
+                <button type="button" class="faq__show-less" aria-controls="faq-expand-all">
+                  Show less questions
+                </button>
+              </details>
             </div>
           </div>
         </section>
+
+        <script>
+          (function () {
+            var root = document.getElementById('faq-expand-all');
+            var less = root && root.querySelector('.faq__show-less');
+            var sum = root && root.querySelector('.faq__expand-summary');
+            if (!root || !less) return;
+            less.addEventListener('click', function () {
+              root.removeAttribute('open');
+              if (sum) sum.focus();
+            });
+          })();
+        </script>
 
         </div>
 
@@ -768,25 +782,7 @@
           </nav>
         </div>
       </footer>
-
-      <div
-        id="site-compliance-notice"
-        class="site-compliance-notice"
-        hidden
-        role="region"
-        aria-label="Privacy and data use"
-      >
-        <div class="site-compliance-notice__inner">
-          <p class="site-compliance-notice__text">
-            We use <strong>Google Fonts</strong> and <strong>Mailchimp</strong> for the waitlist. We store one preference
-            in your browser so this notice stays dismissed. See the
-            <a href="privacy.html">Privacy Policy</a>.
-          </p>
-          <button type="button" class="site-compliance-notice__ok" id="site-compliance-notice-ok">OK</button>
-        </div>
-      </div>
     </div>
-    <script src="assets/compliance-notice.js"></script>
     <script>
       (function () {
         var header = document.querySelector('.site-header--scroll');

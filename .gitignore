@@ -14,3 +14,6 @@ desktop.ini
 
 # Image tooling deps (sharp)
 scripts/node_modules/
+
+# Drop-in source for scripts/process-tone-amps.mjs (optional; not committed)
+assets/_tone-amps-import.png

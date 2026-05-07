@@ -1,6 +1,6 @@
 /**
  * Builds assets/tone-amps-wall.png: transparent surround + soft gray halos removed, 1024×576.
- * Source: Cursor project assets, filename fragment `amps-5627bcfd`.
+ * Uses assets/_tone-amps-import.png when present; otherwise Cursor assets matching SRC_FRAGMENT.
  */
 import sharp from 'sharp';
 import fs from 'fs';
@@ -17,7 +17,7 @@ const CURSOR_PROJECT = path.join(
   'c-JOBS-WIZE-MICE-site-may-2026',
   'assets'
 );
-const SRC_FRAGMENT = 'amps-5627bcfd';
+const SRC_FRAGMENT = 'amps-42c135f9';
 
 /** True black surrounds */
 const BLACK_MAX = 22;
@@ -26,9 +26,11 @@ const HALO_MAX = 60;
 const CHROMA_CAP = 22;
 
 function resolveSrc() {
+  const localImport = path.join(ROOT, 'assets', '_tone-amps-import.png');
+  if (fs.existsSync(localImport)) return localImport;
   if (!fs.existsSync(CURSOR_PROJECT)) throw new Error('Cursor assets not found: ' + CURSOR_PROJECT);
   const hit = fs.readdirSync(CURSOR_PROJECT).find((n) => n.includes(SRC_FRAGMENT));
-  if (!hit) throw new Error('No file matching ' + SRC_FRAGMENT);
+  if (!hit) throw new Error('No file matching ' + SRC_FRAGMENT + ' in ' + CURSOR_PROJECT);
   return path.join(CURSOR_PROJECT, hit);
 }
 
