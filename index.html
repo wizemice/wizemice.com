@@ -632,7 +632,6 @@
             data-mc-base=""
             data-mc-u=""
             data-mc-id=""
-            data-mc-merge-roles="MERGE5"
           >
             <div class="waitlist-form__fields">
               <label class="waitlist-form__label">
@@ -1311,7 +1310,7 @@
           var base = form.dataset.mcBase && form.dataset.mcBase.trim();
           var u = form.dataset.mcU && form.dataset.mcU.trim();
           var id = form.dataset.mcId && form.dataset.mcId.trim();
-          var rolesMerge = (form.dataset.mcMergeRoles || 'MERGE5').trim();
+          var rolesMerge = (form.dataset.mcMergeRoles || 'COMPANY').trim();
 
           if (!base || !u || !id) {
             showWaitlistError(
