@@ -9,6 +9,7 @@
       content="WizeCore is an open platform for audio effects: plugins, real analog tone, and a stage-ready pedal format."
     />
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="assets/favicon-32.png" type="image/png" sizes="32x32" />
     <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" sizes="180x180" />
     <link rel="manifest" href="site.webmanifest" />
     <meta name="theme-color" content="#121212" />
@@ -24,6 +25,7 @@
     <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1024" />
     <meta property="og:image:height" content="537" />
+    <meta property="og:image:alt" content="Wize Mice illustration — astronaut mouse on a comet" />
     <meta property="og:site_name" content="WizeMice" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="WizeCore — WizeMice" />
@@ -127,6 +129,26 @@
           <div class="hero__cta-track">
             <a class="btn-waitlist" href="#waitlist"><span class="btn-waitlist__inner"><span class="btn-waitlist__label">Join the Waitlist</span></span></a>
           </div>
+
+          <script>
+            (function () {
+              try {
+                if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+              } catch (e) {
+                /* continue */
+              }
+              var root = document.querySelector('.hero__device');
+              var video = root && root.querySelector('.hero__device-video');
+              if (!root || !video) return;
+              function useStaticHero() {
+                root.classList.add('hero__device--static');
+              }
+              video.addEventListener('error', useStaticHero);
+              video.addEventListener('loadeddata', function () {
+                if (!video.videoWidth || !video.videoHeight) useStaticHero();
+              });
+            })();
+          </script>
 
           <section class="features" aria-label="Product features">
           <article class="feature-card">

@@ -250,6 +250,15 @@ main {
   display: none;
 }
 
+/** Video missing or failed to decode — show poster image only (see index hero script) */
+.hero__device--static .hero__device-video {
+  display: none !important;
+}
+
+.hero__device--static .hero__device-fallback {
+  display: block;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .hero__device-video {
     display: none !important;
