@@ -27,13 +27,6 @@
     <meta property="og:image:height" content="537" />
     <meta property="og:image:alt" content="Wize Mice illustration — astronaut mouse on a comet" />
     <meta property="og:site_name" content="WizeMice" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="WizeCore — WizeMice" />
-    <meta
-      name="twitter:description"
-      content="WizeCore is an open platform for audio effects: plugins, real analog tone, and a stage-ready pedal format."
-    />
-    <meta name="twitter:image" content="https://wizemice.com/assets/og-image.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -41,6 +34,56 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Organization",
+            "@id": "https://wizemice.com/#organization",
+            "name": "WizeMice",
+            "legalName": "WizeMice UG (haftungsbeschränkt)",
+            "url": "https://wizemice.com/",
+            "email": "contact@wizemice.com",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://wizemice.com/assets/wm-logo.svg"
+            },
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "Auf der Höhe 22",
+              "addressLocality": "Röttenbach",
+              "postalCode": "91341",
+              "addressCountry": "DE"
+            },
+            "identifier": {
+              "@type": "PropertyValue",
+              "name": "Handelsregister",
+              "value": "HRB 22310",
+              "description": "Amtsgericht Fürth"
+            }
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://wizemice.com/#website",
+            "url": "https://wizemice.com/",
+            "name": "WizeCore",
+            "description": "WizeCore is an open platform for audio effects: plugins, real analog tone, and a stage-ready pedal format.",
+            "inLanguage": "en",
+            "publisher": { "@id": "https://wizemice.com/#organization" }
+          },
+          {
+            "@type": "WebPage",
+            "@id": "https://wizemice.com/#webpage",
+            "url": "https://wizemice.com/",
+            "name": "WizeCore — WizeMice",
+            "description": "WizeCore is an open platform for audio effects: plugins, real analog tone, and a stage-ready pedal format.",
+            "isPartOf": { "@id": "https://wizemice.com/#website" },
+            "about": { "@id": "https://wizemice.com/#organization" }
+          }
+        ]
+      }
+    </script>
     <script src="assets/mailchimp-config.js"></script>
   </head>
   <body>
@@ -100,9 +143,9 @@
             </div>
             <div class="hero__copy-block">
               <div class="hero__copy">
-                <p class="hero__brand" id="hero-heading">
+                <h1 class="hero__brand" id="hero-heading">
                   <span class="hero__brand-bold">Wize</span>Core
-                </p>
+                </h1>
                 <p class="hero__headline">
                   <span class="hero__headline-line hero__headline-line--1">
                     <span class="hero__headline-light">An </span
@@ -785,6 +828,7 @@
           <p class="site-footer__copyright">© 2026 WizeMice. All rights reserved.</p>
           <nav class="site-footer__legal" aria-label="Legal">
             <a href="privacy.html">Privacy</a>
+            <a href="imprint.html">Imprint</a>
           </nav>
           <div class="site-footer__contact-block">
             <p class="site-footer__contact-label">Contact</p>
