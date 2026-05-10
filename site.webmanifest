@@ -1,7 +1,7 @@
 {
   "id": "https://wizemice.com/",
-  "name": "WizeCore",
-  "short_name": "WizeCore",
+  "name": "WizeMice - Free the Sound!",
+  "short_name": "WizeMice",
   "description": "An open platform for audio effects.",
   "start_url": "https://wizemice.com/",
   "scope": "https://wizemice.com/",
