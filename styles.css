@@ -636,7 +636,7 @@ button.btn-waitlist {
 
 .tone {
   /** Logo rail / desktop copy rail — `--tone-brand-width` */
-  background-color: #1b1b1b;
+  background-color: #121212;
   padding-block: 0;
   padding-inline: 0;
   display: flex;
@@ -722,7 +722,7 @@ button.btn-waitlist {
   flex-shrink: 0;
   border: none;
   box-sizing: border-box;
-  background-color: transparent;
+  background-color: #121212;
 }
 
 .tone__pan {
@@ -2440,7 +2440,7 @@ button.btn-waitlist {
     border-radius: 0;
     border: none;
     box-sizing: border-box;
-    background-color: transparent;
+    background-color: #121212;
   }
 
   .tone__text-column {
