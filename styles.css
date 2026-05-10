@@ -600,6 +600,18 @@ button.btn-waitlist {
   box-sizing: border-box;
 }
 
+/** Transparent / knockout art (PNG alpha) — no frame, preserve transparency */
+.feature-card--knockout .feature-card__media {
+  background: transparent;
+}
+
+.feature-card--knockout .feature-card__media img {
+  border: none;
+  object-fit: contain;
+  object-position: center center;
+  background: transparent;
+}
+
 .title-gradient {
   margin: 0;
   font-size: 24px;
