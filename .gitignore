@@ -17,3 +17,6 @@ scripts/node_modules/
 
 # Drop-in source for scripts/process-tone-amps.mjs (optional; not committed)
 assets/_tone-amps-import.png
+
+# Raw PNGs for scripts/process-feature-images.mjs — run the script to regenerate assets/feat-selling-*.png
+assets/_feature-imports/*.png

@@ -19,17 +19,31 @@ const OUT_ASSETS = path.join(ROOT, 'assets');
 
 const CURSOR_PROJECT =
   path.join(process.env.USERPROFILE ?? '', '.cursor', 'projects', 'c-JOBS-WIZE-MICE-site-may-2026', 'assets');
+const LOCAL_IMPORTS = path.join(ROOT, 'assets', '_feature-imports');
 
+/** High processing power card: fragment `processor-fa40e228` → `../assets/feat-selling-pcb.png` */
 function resolveSrc(fragment) {
-  if (!fs.existsSync(CURSOR_PROJECT)) throw new Error('Cursor assets folder not found: ' + CURSOR_PROJECT);
-  const names = fs.readdirSync(CURSOR_PROJECT);
   const preferred = `${fragment}.png`;
-  const exact = names.find((n) => n === preferred);
-  const hit =
-    exact ??
-    names.sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' })).find((n) => n.includes(fragment));
-  if (!hit) throw new Error('No file matching "' + fragment + '" in ' + CURSOR_PROJECT);
-  return path.join(CURSOR_PROJECT, hit);
+  const dirs = [LOCAL_IMPORTS, CURSOR_PROJECT].filter((d) => fs.existsSync(d));
+
+  if (!dirs.length)
+    throw new Error('No import folders found. Create ' + LOCAL_IMPORTS + ' or ' + CURSOR_PROJECT);
+
+  for (const dir of dirs) {
+    const names = fs.readdirSync(dir).filter((n) => n.toLowerCase().endsWith('.png'));
+    const exact = names.find((n) => n === preferred);
+    const hit =
+      exact ??
+      names
+        .slice()
+        .sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }))
+        .find((n) => n.includes(fragment));
+    if (hit) return path.join(dir, hit);
+  }
+
+  throw new Error(
+    'No PNG matching "' + fragment + '" in ' + dirs.join(' or ') + ' (e.g. name it ' + preferred + ')'
+  );
 }
 
 function cropAspect43(meta) {
