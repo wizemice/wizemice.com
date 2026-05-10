@@ -600,18 +600,6 @@ button.btn-waitlist {
   box-sizing: border-box;
 }
 
-/** Transparent / knockout art (PNG alpha) — no frame, preserve transparency */
-.feature-card--knockout .feature-card__media {
-  background: transparent;
-}
-
-.feature-card--knockout .feature-card__media img {
-  border: none;
-  object-fit: contain;
-  object-position: center center;
-  background: transparent;
-}
-
 .title-gradient {
   margin: 0;
   font-size: 24px;
@@ -648,7 +636,7 @@ button.btn-waitlist {
 
 .tone {
   /** Logo rail / desktop copy rail — `--tone-brand-width` */
-  background-color: #121212;
+  background-color: #1b1b1b;
   padding-block: 0;
   padding-inline: 0;
   display: flex;
@@ -734,7 +722,7 @@ button.btn-waitlist {
   flex-shrink: 0;
   border: none;
   box-sizing: border-box;
-  background-color: #121212;
+  background-color: transparent;
 }
 
 .tone__pan {
@@ -2452,7 +2440,7 @@ button.btn-waitlist {
     border-radius: 0;
     border: none;
     box-sizing: border-box;
-    background-color: #121212;
+    background-color: transparent;
   }
 
   .tone__text-column {
