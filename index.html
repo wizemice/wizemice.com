@@ -85,6 +85,20 @@
       }
     </script>
     <script src="assets/mailchimp-config.js"></script>
+    <script>
+      /** Fallback only if assets/mailchimp-config.js is blocked or breaks — keep values in sync with that file */
+      (function () {
+        if (window.WIZEMICE_MAILCHIMP && typeof window.WIZEMICE_MAILCHIMP === 'object') return;
+        window.WIZEMICE_MAILCHIMP = {
+          base: 'https://wizemice.us18.list-manage.com',
+          u: '2177455115dcd899cc4897f07',
+          id: 'f54680d189',
+          mergeRoles: 'COMPANY'
+        };
+      })();
+    </script>
+    <link rel="dns-prefetch" href="https://wizemice.us18.list-manage.com" />
+    <link rel="preconnect" href="https://wizemice.us18.list-manage.com" />
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
@@ -1317,7 +1331,7 @@
               delete window[cbName];
               if (script.parentNode) script.parentNode.removeChild(script);
             } catch (e2) {}
-            cb(new Error('Request timed out. Please try again.'));
+            cb(new Error('Request timed out. Check your connection, or temporarily disable blocking tools that may block Mailchimp.'));
           }, timeoutMs || 20000);
 
           window[cbName] = function (data) {
@@ -1345,7 +1359,11 @@
               delete window[cbName];
             } catch (e3) {}
             if (script.parentNode) script.parentNode.removeChild(script);
-            cb(new Error('Could not reach signup service.'));
+            cb(
+              new Error(
+                'Could not reach Mailchimp. Ad blockers and strict privacy modes often block list-manage.com — try disabling them for wizemice.com, use another browser, or try from a phone without blocking extensions.'
+              )
+            );
           };
           document.body.appendChild(script);
         }
@@ -1373,10 +1391,11 @@
             return;
           }
 
-          var base = form.dataset.mcBase && form.dataset.mcBase.trim();
-          var u = form.dataset.mcU && form.dataset.mcU.trim();
-          var id = form.dataset.mcId && form.dataset.mcId.trim();
-          var rolesMerge = (form.dataset.mcMergeRoles || 'COMPANY').trim();
+          /** getAttribute avoids rare dataset edge cases (e.g. data-mc-*). */
+          var base = ((form.getAttribute('data-mc-base') || '') + '').trim();
+          var u = ((form.getAttribute('data-mc-u') || '') + '').trim();
+          var id = ((form.getAttribute('data-mc-id') || '') + '').trim();
+          var rolesMerge = (((form.getAttribute('data-mc-merge-roles') || '') + '').trim() || 'COMPANY');
 
           if (!base || !u || !id) {
             showWaitlistError(
@@ -1410,7 +1429,12 @@
                 showWaitlistError(err.message || 'Something went wrong. Please try again.');
                 return;
               }
-              if (!data || data.result !== 'success') {
+              var resultOk =
+                data &&
+                String(data.result || '')
+                  .trim()
+                  .toLowerCase() === 'success';
+              if (!resultOk) {
                 var raw =
                   data && typeof data.msg === 'string'
                     ? data.msg

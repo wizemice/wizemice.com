@@ -1,6 +1,9 @@
 /**
  * ─── Mailchimp waitlist (wizemice.com) ─────────────────────────────────────
  *
+ * When changing base / u / id / mergeRoles, update the fallback block right
+ * after <script src="assets/mailchimp-config.js"> in index.html (same values).
+ *
  * 1) In Mailchimp: Audience dashboard → Audience name & defaults → Audience ID
  *    (optional note). You mainly need values from an **embedded signup form**.
  *
