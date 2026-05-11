@@ -2376,7 +2376,8 @@ button.btn-waitlist {
   /* Desktop CTAs use default `.btn-waitlist__inner` / `__label` sizing (same as mobile). */
 
   .features {
-    padding-block: clamp(48px, 6vw, 80px);
+    padding-top: clamp(48px, 6vw, 80px);
+    padding-bottom: clamp(96px, 12vw, 160px);
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: space-between;
