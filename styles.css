@@ -2495,7 +2495,8 @@ button.btn-waitlist {
   }
 
   .analog-cards {
-    padding-block: clamp(48px, 6vw, 80px);
+    padding-top: clamp(88px, 11vw, 160px);
+    padding-bottom: clamp(88px, 11vw, 160px);
     max-width: min(1221px, calc(100vw - 48px));
     margin-inline: auto;
   }
